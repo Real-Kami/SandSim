@@ -13,7 +13,7 @@ let simulation = {
 }
 let x;
 let y;
-let type = 2;
+let type = 1;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
