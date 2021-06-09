@@ -46,9 +46,26 @@ function update() {
 				}
 			}
 			if (((simulation.list[a][b] === 2) && (a !== simulation.h-1))) {
-				if (simulation.list[a+1][b] === 0) {
+				if ((simulation.list[a+1][b] === 0)) {
 					simulation.list[a][b] = 0;
 					simulation.list[a+1][b] = 2;
+				} else {
+					if ((simulation.list[a+1][b] !== 0) && (simulation.list[a+1][b-1] === 0)) {
+						simulation.list[a][b] = 0;
+						simulation.list[a+1][b-1] = 2;
+					}
+					if ((simulation.list[a+1][b] !== 0) && (simulation.list[a+1][b-2] === 0)) {
+						simulation.list[a][b] = 0;
+						simulation.list[a+1][b-2] = 2;
+					}	
+					if ((simulation.list[a+1][b] !== 0) && (simulation.list[a+1][b-1] === 2) && (simulation.list[a+1][b-2] === 2) && (simulation.list[a+1][b+1] === 0)) {
+						simulation.list[a][b] = 0;
+						simulation.list[a+1][b+1] = 2;
+					}	
+					if ((simulation.list[a+1][b] !== 0) && (simulation.list[a+1][b-1] === 2) && (simulation.list[a+1][b-2] === 2)  && (simulation.list[a+1][b+1] === 2) && (simulation.list[a+1][b+2] === 0)) {
+						simulation.list[a][b] = 0;
+						simulation.list[a+1][b+2] = 2;
+					}
 				}
 			}
 			if (((simulation.list[a][b] === 4) && (a !== simulation.h-1))) {
@@ -67,6 +84,26 @@ function update() {
 					}
 				}
 			}
+			if ((simulation.list[a][b] === 5) && (simulation.list[a-1][b] === 0) && (a !== simulation.h-1)) {
+				if (simulation.list[a][b+1] === 2) {
+					simulation.list[a][b+1] = 5;
+				}
+				if (simulation.list[a][b-1] === 2) {
+					simulation.list[a][b-1] = 5;
+				}
+				if (simulation.list[a-1][b+1] === 2) {
+					simulation.list[a-1][b+1] = 5;
+				}
+				if (simulation.list[a-1][b-1] === 2) {
+					simulation.list[a-1][b-1] = 5;
+				}
+				if (simulation.list[a+1][b+1] === 2) {
+					simulation.list[a+1][b+1] = 5;
+				}
+				if (simulation.list[a+1][b-1] === 2) {
+					simulation.list[a+1][b-1] = 5;
+				}
+			}
 		}
 	}
 }
@@ -75,7 +112,7 @@ function render() {
 
 	//Draw grid and background
 
-	c.fillStyle = "RGBA(0,112,255,0.4)";
+	c.fillStyle = "RGBA(0,112,255,0.2)";
 	c.fillRect(0,0,99999,99999)
 
 	//Draw sand
@@ -85,23 +122,23 @@ function render() {
 			switch(simulation.list[a][b]) {
 				case 1:
 				c.fillStyle = "wheat";
-				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
+				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w)+1,(canvas.height/simulation.h)+1);
 				break;
 				case 2:
 				c.fillStyle = "sienna";
-				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
+				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w)+1,(canvas.height/simulation.h)+1);
 				break;
 				case 3:
 				c.fillStyle = "gray";
-				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
+				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w)+1,(canvas.height/simulation.h)+1);
 				break;
 				case 4:
 				c.fillStyle = "blue";
-				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
+				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w)+1,(canvas.height/simulation.h)+1);
 				break;
 				case 5:
 				c.fillStyle = "limeGreen";
-				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
+				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w)+1,(canvas.height/simulation.h)+1);
 				break;
 			}
 		}
