@@ -13,7 +13,7 @@ let simulation = {
 }
 let x;
 let y;
-let type = 1;
+let type = 2;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -35,15 +35,36 @@ function update() {
 					simulation.list[a][b] = 0;
 					simulation.list[a+1][b] = 1;
 				} else {
-				if ((simulation.list[a+1][b] === 1) && (simulation.list[a+1][b-1] === 0)) {
-					simulation.list[a][b] = 0;
-					simulation.list[a+1][b-1] = 1;
+					if ((simulation.list[a+1][b] === 1) && (simulation.list[a+1][b-1] === 0)) {
+						simulation.list[a][b] = 0;
+						simulation.list[a+1][b-1] = 1;
+					}	
+					if ((simulation.list[a+1][b] === 1) && (simulation.list[a+1][b-1] === 1) && (simulation.list[a+1][b+1] === 0)) {
+						simulation.list[a][b] = 0;
+						simulation.list[a+1][b+1] = 1;
+					}
 				}
-				
-				if ((simulation.list[a+1][b] === 1) && (simulation.list[a+1][b-1] === 1) && (simulation.list[a+1][b+1] === 0)) {
+			}
+			if (((simulation.list[a][b] === 2) && (a !== simulation.h-1))) {
+				if (simulation.list[a+1][b] === 0) {
 					simulation.list[a][b] = 0;
-					simulation.list[a+1][b+1] = 1;
+					simulation.list[a+1][b] = 2;
 				}
+			}
+			if (((simulation.list[a][b] === 4) && (a !== simulation.h-1))) {
+				if (simulation.list[a+1][b] === 0) {
+					simulation.list[a][b] = 0;
+					simulation.list[a+1][b] = 4;
+				} else {		
+					if ((simulation.list[a][b-1] === 0)) {
+						simulation.list[a][b] = 0;
+						simulation.list[a][b-1] = 4;
+					} else {
+						if (simulation.list[a][b+1] === 0) {
+							simulation.list[a][b] = 0;
+							simulation.list[a][b+1] = 4;
+						}
+					}
 				}
 			}
 		}
@@ -54,7 +75,7 @@ function render() {
 
 	//Draw grid and background
 
-	c.fillStyle = "RGBA(0,0,0,0.1)";
+	c.fillStyle = "RGBA(0,112,255,0.4)";
 	c.fillRect(0,0,99999,99999)
 
 	//Draw sand
@@ -67,7 +88,19 @@ function render() {
 				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
 				break;
 				case 2:
+				c.fillStyle = "sienna";
+				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
+				break;
+				case 3:
+				c.fillStyle = "gray";
+				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
+				break;
+				case 4:
 				c.fillStyle = "blue";
+				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
+				break;
+				case 5:
+				c.fillStyle = "limeGreen";
 				c.fillRect(b*(canvas.width/simulation.w),a*(canvas.height/simulation.h),(canvas.width/simulation.w),(canvas.height/simulation.h));
 				break;
 			}
@@ -82,7 +115,20 @@ document.addEventListener("keydown",addSand);
 document.addEventListener("mousemove",getMousePos);
 
 function addSand() {
-	simulation.list[y][x] = type;
+	switch (event.keyCode) {
+		case 65:simulation.list[y][x] = 0;
+		break
+		case 90:simulation.list[y][x] = 1;
+		break
+		case 69:simulation.list[y][x] = 2;
+		break
+		case 82:simulation.list[y][x] = 3;
+		break
+		case 84:simulation.list[y][x] = 4;
+		break
+		case 89:simulation.list[y][x] = 5;
+		break
+	}
 }
 function getMousePos() {
 	y = Math.floor(event.pageY*simulation.h/canvas.height);
